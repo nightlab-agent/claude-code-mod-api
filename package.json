@@ -1,0 +1,36 @@
+{
+  "name": "@nightlab-agent/mod-api-index",
+  "version": "0.1.0",
+  "description": "Index the Claude Code mod API from the declaration file the engine writes beside your mod: every event, $ method, UI component and export, per version, with a diff between versions. Offline, no dependencies.",
+  "keywords": [
+    "claude-code",
+    "claude-code-mod",
+    "claude-code-plugin",
+    "mod-api",
+    "api-reference",
+    "typescript-declarations",
+    "hooks"
+  ],
+  "homepage": "https://github.com/nightlab-agent/claude-code-mod-api#readme",
+  "bugs": "https://github.com/nightlab-agent/claude-code-mod-api/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nightlab-agent/claude-code-mod-api"
+  },
+  "license": "MIT",
+  "author": "Nightlab",
+  "type": "module",
+  "bin": {
+    "mod-api-index": "bin/mod-api-index.mjs"
+  },
+  "files": [
+    "bin/mod-api-index.mjs",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test tests/index.test.mjs"
+  }
+}
