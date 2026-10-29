@@ -71,8 +71,16 @@ export function parse(text) {
   const exports = []
   const eventMaps = {}
   const nouns = {}
-  const components = {}
+  const propTypes = {}
+  const ctor = {}
   let tools = []
+  let surface = ''
+  for (const l of lines) {
+    const s6 = /^      ([a-z][A-Za-z]*): \{$/.exec(l)
+    if (s6) surface = s6[1]
+    const k = /^\s+([A-Z][A-Za-z]*): ElementConstructor<[A-Za-z]+>;$/.exec(l)
+    if (k) (ctor[k[1]] ||= new Set()).add(surface)
+  }
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
     const m = TOP.exec(line)
@@ -92,15 +100,17 @@ export function parse(text) {
     }
     if (m[2] === 'BuiltinToolInputs') tools = members(body, 6).map(x => x.name)
     const c = /^([A-Z][A-Za-z]*)Props$/.exec(m[2])
-    if (c && m[1] === 'type') components[c[1]] = members(body, 6).map(x => x.name + (x.optional ? '?' : ''))
+    if (c && m[1] === 'type') propTypes[c[1]] = members(body, 6).map(x => x.name + (x.optional ? '?' : ''))
   }
+  const components = {}
+  for (const name of Object.keys(ctor).sort()) components[name] = { props: propTypes[name] || [], surfaces: [...ctor[name]] }
   const events = {}
   for (const [map, rows] of Object.entries(eventMaps)) for (const [ev, type] of Object.entries(rows)) (events[ev] ||= {})[map] = type
   return {
     version: vm ? vm[1] : 'unknown',
     firstLine: first.trim(),
     counts: { lines: raw.length - (text.endsWith('\n') ? 1 : 0), exports: exports.length, events: Object.keys(events).length, nouns: Object.keys(nouns).length,
-      methods: Object.values(nouns).reduce((a, b) => a + b.length, 0), components: Object.keys(components).length, tools: tools.length },
+      members: Object.values(nouns).reduce((a, b) => a + b.length, 0), components: Object.keys(components).length, tools: tools.length },
     events, nouns, components, tools, exports,
   }
 }
@@ -124,8 +134,8 @@ export function render(s) {
     for (const m of ms) o.push(`- \`${m.name}${m.optional ? '?' : ''}: ${m.sig}\``)
     o.push('')
   }
-  o.push('## UI components (from `<Name>Props` types)', '')
-  for (const [c, props] of Object.entries(s.components)) o.push(`- \`<${c}>\`: ${props.map(p => `\`${p}\``).join(', ') || '(no props)'}`)
+  o.push('## UI elements (`ElementConstructor` members, with the surfaces that declare each)', '')
+  for (const [c, v] of Object.entries(s.components)) o.push(`- \`<${c}>\` (${v.surfaces.join(', ')}): ${v.props.map(p => `\`${p}\``).join(', ') || '(no props type found)'}`)
   o.push('', '## Builtin tool names (`BuiltinToolInputs`)', '', s.tools.length ? s.tools.map(t => `\`${t}\``).join(', ') : 'None declared in this version: the interface is empty and a mod augments it with the tools it types.', '',
     `## All exports (${s.exports.length})`, '', '<details><summary>names</summary>', '',
     ...s.exports.map(e => `- ${e.kind} \`${e.name}\``), '', '</details>', '')
@@ -144,9 +154,11 @@ export function diff(a, b) {
   set('nouns', Object.keys(a.nouns), Object.keys(b.nouns))
   const sigs = s => Object.entries(s.nouns).flatMap(([k, ms]) => ms.map(m => `$.${k}.${m.name}: ${m.sig}`))
   set('noun members (name and signature)', sigs(a), sigs(b))
-  set('components', Object.keys(a.components).map(c => `<${c}>`), Object.keys(b.components).map(c => `<${c}>`))
-  const props = s => Object.entries(s.components).flatMap(([k, ps]) => ps.map(p => `<${k}> ${p}`))
-  set('component props', props(a), props(b))
+  set('elements', Object.keys(a.components).map(c => `<${c}>`), Object.keys(b.components).map(c => `<${c}>`))
+  const props = s => Object.entries(s.components).flatMap(([k, v]) => v.props.map(p => `<${k}> ${p}`))
+  set('element props', props(a), props(b))
+  const surf = s => Object.entries(s.components).flatMap(([k, v]) => v.surfaces.map(x => `<${k}> on ${x}`))
+  set('element surfaces', surf(a), surf(b))
   set('builtin tools', a.tools, b.tools)
   set('exports', a.exports.map(e => e.name), b.exports.map(e => e.name))
   if (!n) o.push('No difference in the indexed names and signatures.', '')

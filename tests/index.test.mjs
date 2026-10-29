@@ -17,7 +17,7 @@ const cli = (...args) => spawnSync(process.execPath, [bin, ...args], { encoding:
 
 test('the version comes from the first line and the counts are what the fixture declares', () => {
   assert.equal(A.version, '9.9.1')
-  assert.deepEqual(A.counts, { lines: 49, exports: 9, events: 3, nouns: 2, methods: 3, components: 1, tools: 1 })
+  assert.deepEqual(A.counts, { lines: 54, exports: 10, events: 3, nouns: 2, members: 3, components: 1, tools: 1 })
 })
 
 test('one event name merges its rows across the type maps that name it', () => {
@@ -32,8 +32,8 @@ test('a method signature that spans lines is joined into one', () => {
   assert.equal(A.nouns.tool.length, 2, 'a doc comment inside the noun adds no member')
 })
 
-test('components come from <Name>Props types with their prop names, optional ones marked', () => {
-  assert.deepEqual(A.components, { Text: ['color?', 'bold?'] })
+test('elements come from ElementConstructor members, with their surfaces and the props of their <Name>Props type', () => {
+  assert.deepEqual(A.components, { Text: { props: ['color?', 'bold?'], surfaces: ['terminal'] } })
   assert.deepEqual(A.tools, ['Bash'])
 })
 
@@ -47,7 +47,7 @@ test('the rendered page carries every count and every event name', () => {
   const page = render(A)
   for (const [k, v] of Object.entries(A.counts)) assert.ok(page.includes(`| ${k} | ${v} |`), k)
   for (const ev of Object.keys(A.events)) assert.ok(page.includes(`\`${ev}\``), ev)
-  assert.ok(page.includes('`<Text>`: `color?`, `bold?`'))
+  assert.ok(page.includes('`<Text>` (terminal): `color?`, `bold?`'))
 })
 
 test('diff names what the next version adds and drops, and finds nothing between a file and itself', () => {
@@ -55,6 +55,8 @@ test('diff names what the next version adds and drops, and finds nothing between
   assert.ok(d.changes >= 5, `changes ${d.changes}`)
   assert.ok(d.text.includes('- added `ui.toast`'))
   assert.ok(d.text.includes('- added `<Box>`'))
+  assert.ok(d.text.includes('- added `<Text> on desktop`'))
+  assert.ok(d.text.includes('- added `<Box> width?`'))
   assert.ok(d.text.includes('- dropped `tier`'))
   assert.ok(d.text.includes('- added `$.fs.read: (path: string, options?: { as: "bytes" }) => Promise<string>`'))
   assert.equal(diff(A, A).changes, 0)

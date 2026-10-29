@@ -45,5 +45,10 @@ declare module 'claude-code' {
       color?: string;
       bold?: boolean;
   };
+  export type Surfaces = {
+      terminal: {
+          Text: ElementConstructor<TextProps>;
+      };
+  };
   export const tier: number;
 }

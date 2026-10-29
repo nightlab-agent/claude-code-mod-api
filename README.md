@@ -5,14 +5,14 @@ and to see what a Claude Code release changed in it.** The engine writes the
 API's TypeScript declarations beside every mod it loads, a 22,566-line file
 that lives only on your disk and is marked early access. This repo indexes
 that file per version: every event with its input, result and chunk types,
-every `$` noun and method signature, every UI component and its props, every
-export. One script makes the index; `diff` says what a version added and dropped.
+every `$` noun and member signature, every UI element with the surfaces that
+draw it and its props, every export. One script makes the index; `diff` says what a version added and dropped.
 
 Version 0.1.0, MIT.
 
 ## The index
 
-- [`index/2.1.310/README.md`](./index/2.1.310/README.md): Claude Code 2.1.310. 111 events, 21 `$` nouns with 85 methods, 15 UI components, 482 exports.
+- [`index/2.1.310/README.md`](./index/2.1.310/README.md): Claude Code 2.1.310. 111 events, 21 `$` nouns with 85 members, 12 UI elements, 482 exports.
 
 Each version is a folder, `index/<version>/`, with the page and a
 `summary.json` the diff reads. A new version lands as a commit and a
@@ -40,8 +40,8 @@ with it if you like.
    npx @nightlab-agent/mod-api-index diff index/2.1.310/summary.json index/<version>/summary.json
    ```
 
-   It prints added and dropped events, nouns, method signatures, components,
-   props, builtin tool names and exports, and exits 1 when there is a difference,
+   It prints added and dropped events, nouns, member signatures, elements,
+   their props and surfaces, builtin tool names and exports, and exits 1 when there is a difference,
    0 when there is none.
 
 Or clone this repo and run `node bin/mod-api-index.mjs` the same way.
@@ -49,8 +49,9 @@ Or clone this repo and run `node bin/mod-api-index.mjs` the same way.
 ## What it reads and what it leaves out
 
 - It reads names and signatures: the event rows of the engine's type maps,
-  the members of `CoreEngineInterface` and `EngineInterface`, the `<Name>Props`
-  types, `BuiltinToolInputs`, and every top-level export. The declaration
+  the members of `CoreEngineInterface` and `EngineInterface`, the `ElementConstructor`
+  members by surface with the props of their `<Name>Props` type,
+  `BuiltinToolInputs`, and every top-level export. The declaration
   file's own comments are not copied, and the file itself is not in this repo;
   it is Anthropic's, and the engine writes it for you.
 - The parse is line-based, not a TypeScript compiler. A method signature is

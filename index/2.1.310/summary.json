@@ -6,8 +6,8 @@
   "exports": 482,
   "events": 111,
   "nouns": 21,
-  "methods": 85,
-  "components": 15,
+  "members": 85,
+  "components": 12,
   "tools": 0
  },
  "events": {
@@ -902,174 +902,230 @@
   ]
  },
  "components": {
-  "BoxHover": [
-   "scope?",
-   "borderStyle?",
-   "borderColor?",
-   "borderDimColor?",
-   "backgroundColor?",
-   "display?",
-   "top?",
-   "left?",
-   "right?",
-   "bottom?"
-  ],
-  "Box": [
-   "key?",
-   "hover?",
-   "position?",
-   "top?",
-   "left?",
-   "right?",
-   "bottom?",
-   "flexDirection?",
-   "flexGrow?",
-   "flexShrink?",
-   "flexWrap?",
-   "alignItems?",
-   "alignSelf?",
-   "justifyContent?",
-   "gap?",
-   "columnGap?",
-   "rowGap?",
-   "width?",
-   "height?",
-   "minWidth?",
-   "minHeight?",
-   "margin?",
-   "marginX?",
-   "marginY?",
-   "marginTop?",
-   "marginBottom?",
-   "marginLeft?",
-   "marginRight?",
-   "padding?",
-   "paddingX?",
-   "paddingY?",
-   "paddingTop?",
-   "paddingBottom?",
-   "paddingLeft?",
-   "paddingRight?",
-   "borderStyle?",
-   "borderColor?",
-   "borderDimColor?",
-   "backgroundColor?",
-   "overflow?",
-   "display?"
-  ],
-  "Button": [
-   "key?",
-   "label?",
-   "hotkey?",
-   "action?",
-   "plain?",
-   "dimColor?",
-   "variant?",
-   "role?",
-   "autoFocus?",
-   "hover?",
-   "onPress"
-  ],
-  "Client": [
-   "key",
-   "module",
-   "props?",
-   "width?",
-   "height?",
-   "flexGrow?"
-  ],
-  "Code": [
-   "source",
-   "language?",
-   "path?",
-   "startLine?",
-   "format?",
-   "wrap?"
-  ],
-  "Image": [
-   "key?",
-   "source",
-   "columns",
-   "rows",
-   "alt"
-  ],
-  "Input": [
-   "key",
-   "label?",
-   "placeholder?",
-   "value?",
-   "submitLabel?",
-   "rows?",
-   "autoFocus?",
-   "onInput?",
-   "onSubmit"
-  ],
-  "Link": [
-   "href",
-   "label?"
-  ],
-  "MarkdownLeaf": [
-   "key?",
-   "text",
-   "dimColor?",
-   "pressableLinks?"
-  ],
-  "Markdown": [
-   "key?",
-   "text",
-   "dimColor?",
-   "onLinkPress?",
-   "pressableLinks?"
-  ],
-  "Raster": [
-   "key",
-   "columns",
-   "rows",
-   "cells"
-  ],
-  "Select": [
-   "key",
-   "label?",
-   "options",
-   "value?",
-   "autoFocus?",
-   "onSelect"
-  ],
-  "Svg": [
-   "source",
-   "alt",
-   "width?",
-   "height?",
-   "isInteractive?"
-  ],
-  "TextHover": [
-   "scope?",
-   "color?",
-   "backgroundColor?",
-   "dimColor?",
-   "bold?",
-   "italic?",
-   "underline?",
-   "strikethrough?",
-   "inverse?"
-  ],
-  "Text": [
-   "hover?",
-   "color?",
-   "backgroundColor?",
-   "dimColor?",
-   "size?",
-   "weight?",
-   "mono?",
-   "tabular?",
-   "bold?",
-   "italic?",
-   "underline?",
-   "strikethrough?",
-   "inverse?",
-   "dir?",
-   "wrap?"
-  ]
+  "Box": {
+   "props": [
+    "key?",
+    "hover?",
+    "position?",
+    "top?",
+    "left?",
+    "right?",
+    "bottom?",
+    "flexDirection?",
+    "flexGrow?",
+    "flexShrink?",
+    "flexWrap?",
+    "alignItems?",
+    "alignSelf?",
+    "justifyContent?",
+    "gap?",
+    "columnGap?",
+    "rowGap?",
+    "width?",
+    "height?",
+    "minWidth?",
+    "minHeight?",
+    "margin?",
+    "marginX?",
+    "marginY?",
+    "marginTop?",
+    "marginBottom?",
+    "marginLeft?",
+    "marginRight?",
+    "padding?",
+    "paddingX?",
+    "paddingY?",
+    "paddingTop?",
+    "paddingBottom?",
+    "paddingLeft?",
+    "paddingRight?",
+    "borderStyle?",
+    "borderColor?",
+    "borderDimColor?",
+    "backgroundColor?",
+    "overflow?",
+    "display?"
+   ],
+   "surfaces": [
+    "terminal",
+    "desktop",
+    "mobile",
+    "vscode"
+   ]
+  },
+  "Button": {
+   "props": [
+    "key?",
+    "label?",
+    "hotkey?",
+    "action?",
+    "plain?",
+    "dimColor?",
+    "variant?",
+    "role?",
+    "autoFocus?",
+    "hover?",
+    "onPress"
+   ],
+   "surfaces": [
+    "terminal",
+    "desktop",
+    "mobile",
+    "vscode"
+   ]
+  },
+  "Client": {
+   "props": [
+    "key",
+    "module",
+    "props?",
+    "width?",
+    "height?",
+    "flexGrow?"
+   ],
+   "surfaces": [
+    "terminal",
+    "desktop"
+   ]
+  },
+  "Code": {
+   "props": [
+    "source",
+    "language?",
+    "path?",
+    "startLine?",
+    "format?",
+    "wrap?"
+   ],
+   "surfaces": [
+    "terminal",
+    "desktop",
+    "mobile",
+    "vscode"
+   ]
+  },
+  "Image": {
+   "props": [
+    "key?",
+    "source",
+    "columns",
+    "rows",
+    "alt"
+   ],
+   "surfaces": [
+    "terminal"
+   ]
+  },
+  "Input": {
+   "props": [
+    "key",
+    "label?",
+    "placeholder?",
+    "value?",
+    "submitLabel?",
+    "rows?",
+    "autoFocus?",
+    "onInput?",
+    "onSubmit"
+   ],
+   "surfaces": [
+    "terminal",
+    "desktop",
+    "vscode"
+   ]
+  },
+  "Link": {
+   "props": [
+    "href",
+    "label?"
+   ],
+   "surfaces": [
+    "terminal",
+    "desktop",
+    "mobile",
+    "vscode"
+   ]
+  },
+  "Markdown": {
+   "props": [
+    "key?",
+    "text",
+    "dimColor?",
+    "onLinkPress?",
+    "pressableLinks?"
+   ],
+   "surfaces": [
+    "terminal",
+    "desktop",
+    "mobile",
+    "vscode"
+   ]
+  },
+  "Raster": {
+   "props": [
+    "key",
+    "columns",
+    "rows",
+    "cells"
+   ],
+   "surfaces": [
+    "terminal"
+   ]
+  },
+  "Select": {
+   "props": [
+    "key",
+    "label?",
+    "options",
+    "value?",
+    "autoFocus?",
+    "onSelect"
+   ],
+   "surfaces": [
+    "terminal",
+    "desktop",
+    "vscode"
+   ]
+  },
+  "Svg": {
+   "props": [
+    "source",
+    "alt",
+    "width?",
+    "height?",
+    "isInteractive?"
+   ],
+   "surfaces": [
+    "desktop",
+    "mobile",
+    "vscode"
+   ]
+  },
+  "Text": {
+   "props": [
+    "hover?",
+    "color?",
+    "backgroundColor?",
+    "dimColor?",
+    "size?",
+    "weight?",
+    "mono?",
+    "tabular?",
+    "bold?",
+    "italic?",
+    "underline?",
+    "strikethrough?",
+    "inverse?",
+    "dir?",
+    "wrap?"
+   ],
+   "surfaces": [
+    "terminal",
+    "desktop",
+    "mobile",
+    "vscode"
+   ]
+  }
  },
  "tools": [],
  "exports": [

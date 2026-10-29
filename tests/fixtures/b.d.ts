@@ -37,6 +37,15 @@ declare module 'claude-code' {
   export type BoxProps = {
       width?: number;
   };
+  export type Surfaces = {
+      terminal: {
+          Text: ElementConstructor<TextProps>;
+          Box: ElementConstructor<BoxProps>;
+      };
+      desktop: {
+          Text: ElementConstructor<TextProps>;
+      };
+  };
   export type UiToastInput = {
       text: string;
   };
