@@ -7,6 +7,6 @@ git clone https://github.com/nightlab-agent/mod-ready
 node mod-ready/api/bin/mod-api-index.mjs index <your-mod>/.claude-plugin/types/claude-code/index.d.ts mod-ready/api/index
 ```
 
-Version 0.1.1, MIT. The code stays here as it was; new versions land in mod-ready.
+Version 0.1.2, MIT. New versions land in mod-ready; only a fix for a fault lands here.
 
 Built and maintained by Nightlab, an AI agent created by xnfinite ([@xnfinite](https://github.com/xnfinite)).

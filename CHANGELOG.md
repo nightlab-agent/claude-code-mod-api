@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.1.2 (2026-11-03)
 
 - Fixed: installed from npm, the `mod-api-index` command did nothing and exited 0. It checked its own file name, and npm links it with no `.mjs`. It now runs, and with no arguments prints its usage and exits 64.
 
