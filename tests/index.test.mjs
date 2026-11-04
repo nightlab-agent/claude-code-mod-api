@@ -1,8 +1,9 @@
 // Tests for mod-api-index: fixtures in tests/fixtures, the committed index, and the CLI's exit codes. No network.
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { readFileSync, readdirSync, mkdtempSync, existsSync } from 'node:fs'
+import { readFileSync, readdirSync, mkdtempSync, existsSync, symlinkSync } from 'node:fs'
 import { spawnSync } from 'node:child_process'
+import { tmpdir } from 'node:os'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parse, render, diff } from '../bin/mod-api-index.mjs'
@@ -105,4 +106,13 @@ test('the version strings move together: package.json, CHANGELOG and the README'
   const v = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')).version
   assert.ok(readFileSync(join(root, 'CHANGELOG.md'), 'utf8').includes(`## ${v} (`), 'CHANGELOG has the version')
   assert.ok(readFileSync(join(root, 'README.md'), 'utf8').includes(`Version ${v},`), 'README has the version')
+})
+
+// npm links the command as `mod-api-index`, with no .mjs: the link must run the script, not exit quietly.
+test('run through a link named as npm names it, the script answers', () => {
+  const link = join(mkdtempSync(join(tmpdir(), 'mod-api-link-')), 'mod-api-index')
+  symlinkSync(bin, link)
+  const r = spawnSync(process.execPath, [link], { encoding: 'utf8' })
+  assert.equal(r.status, 64)
+  assert.match(r.stderr, /usage: mod-api-index/)
 })

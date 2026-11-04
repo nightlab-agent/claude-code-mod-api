@@ -4,8 +4,9 @@
 //        mod-api-index diff <summary-a.json> <summary-b.json> prints what B adds and drops against A (markdown)
 // Reads names and signatures only; the engine's doc comments are never copied. No network, no dependencies.
 // Exit codes: 0 ran; 1 a difference was found (diff only); 2 an input missing or unreadable; 64 bad arguments.
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
+import { readFileSync, writeFileSync, mkdirSync, realpathSync } from 'node:fs'
 import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 const EVENT_ROW = /^      '([a-z]+\.[a-zA-Z]+)': (.+);$/
 const TOP = /^  export (type|interface|const|function|class) ([A-Za-z_$][A-Za-z0-9_$]*)/
@@ -189,4 +190,5 @@ function main(argv) {
   return 64
 }
 
-if (process.argv[1] && /mod-api-index\.mjs$/.test(process.argv[1])) process.exit(main(process.argv.slice(2)))
+// The real file, not the name: npm links this script as `mod-api-index`, and a test imports it without running it.
+if (process.argv[1] && realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) process.exit(main(process.argv.slice(2)))

@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Fixed: installed from npm, the `mod-api-index` command did nothing and exited 0. It checked its own file name, and npm links it with no `.mjs`. It now runs, and with no arguments prints its usage and exits 64.
+
 ## 0.1.1 (2026-10-29)
 
 - Moved to mod-ready: the script, the 2.1.310 index and the tests now live in mod-ready's `api/` folder (mod-ready 0.2.0). The README points there; the code here is unchanged.
